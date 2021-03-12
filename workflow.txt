@@ -1,0 +1,8 @@
+npx create-react-app soil-ent-green-react-v2
+
+npm install --save-exact react-scripts@3.2.0
+
+git init
+
+
+
