@@ -14,6 +14,207 @@ add .env file to .gitignore, commit and push.
 
 add .env file to the project's root directory.
 
+replace App.js boilerplate, create control file, and connect the two...
+
+    src/components/App.js
+    ------------------------
+
+    import React from "react";
+    import PlantControl from "./PlantControl";
+
+    function App() {
+      return (
+        <React.Fragment>
+          <PlantControl />
+        </React.Fragment>
+      );
+    }
+
+    export default App;
+    ---------------------------
+
+npm install firebase (current install @ version 8.3.0)
+
+npm install (just in case I missed something).
+
+add REACT_APP_FIREBASE info to .env file (copy values from "firebaseConfig" in firestore project settings)
+
+create src/firebase/index.js file and import the appropriate values from the .env file...
+
+    src/firebase/index.js
+    -----------------------
+
+    import firebase from "firebase";
+    import "firebase/firestore";
+
+    const firebaseConfig = {
+      apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+      authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+      databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+      projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+      storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.REACT_APP_FIREBASE_APP_ID,
+      measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    let db = firebase.firestore()
+
+    export default { firebase, db }
+    --------------------------------
+
+import firebase and db into Control component, and call the db to test the firebase connection with "npm start". The console log should return your firebase config object...
+
+    src/components/PlantControl
+    -----------------------------
+
+    import React from "react";
+    import firebase from "./../firebase/index";
+
+    class PlantControl extends React.Component {
+
+
+      render() {
+
+        console.log(firebase.db)
+
+        return (
+          <h1>Placeholder</h1>
+        );
+      }
+
+    }
+
+    export default PlantControl
+    ------------------------------
+
+add code to submit a new collection/data to firestore.  Once you have verified that it works, comment it out so you don't keep adding the same thing over and over every time the wepage loads.
+
+
+    src/components/PlantControl
+    -----------------------------
+
+    import React from "react";
+    import firebase from "./../firebase/index";
+
+    class PlantControl extends React.Component {
+
+
+      render() {
+
+        console.log(firebase.db)
+
+        // firebase.db.collection("testCollection").add({title: "first todo", description: "new todo" })
+        // .then(documentReference => {
+        //   console.log("document reference ID", documentReference.id)
+        // })
+        // .catch(error => {
+        //   console.log(error.message)
+        // });
+
+        return (
+          <h1>Placeholder</h1>
+        );
+      }
+
+    }
+
+    export default PlantControl
+    --------------------------------
+
+add local state to the control file with a constructor containing "this.state".  "this.state" should contain 'masterList: null'.
+
+add code to retreive and save date from firestore to this.state.
+
+    src/components/PlantControl
+    ----------------------------
+
+    import React from "react";
+    import firebase from "./../firebase/index";
+
+    class PlantControl extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+          masterList: null
+        }
+      }
+
+      //ONE TIME GET REQUEST!!! (OUTSIDE of Render() function.)
+      // componentDidMount() {
+      //   firebase.db.collection("hardware").get()
+      //     .then(querySnapshot => {
+      //       const result = querySnapshot.docs.map( doc => {
+      //         return {...doc.data(), id: doc.id};
+      //       })
+      //       this.setState({masterList: result});
+      //     })
+      //     .catch(err => {
+      //       console.log(err.message);
+      //     })
+      // };
+      ////////////////////////////
+
+      //REALTIME LISTENER!!! (OUTSIDE of Render() function)
+      componentDidMount() {
+        const doc = firebase.db.collection("hardware");
+        doc.onSnapshot(docSnapshot => {
+          // console.log(`received doc snapshot: ${docSnapshot}`);
+          const result = docSnapshot.docs.map( doc => {
+          return {...doc.data(), id: doc.id};
+          })
+          this.setState({masterList: result});
+        }, err => {
+          console.log(`Encountered error: ${err}`);
+        });
+      }
+      ////////////////////////////////////////////////
+
+
+      render() {
+        
+        // ADD DATA  (infinite loop inside render)
+        // firebase.db.collection("testCollection").add({title: "first todo", description: "new todo" })
+        // .then(documentReference => {
+        //   console.log("document reference ID", documentReference.id)
+        // })
+        // .catch(error => {
+        //   console.log(error.message)
+        // });
+
+        // GET DATA (infinite loop inside render)
+        // firebase.db.collection("testCollection").get()
+        // .then(querySnapshot => {
+        //   querySnapshot.docs.map( doc => {
+        //     console.log(doc.id, " => ", doc.data());
+        //   })
+        // })
+        // .catch(err => {
+        //   console.log(err.message)
+        // })
+        
+        return (
+        
+          console.log(this.state.masterList),
+          <h1>Placeholder</h1>
+        
+        );
+      }
+
+    }
+
+    export default PlantControl
+    --------------------------------------------
+
+move data call from Control file to its own component file (Graph)
+
+    src/components/Plant Control
+    ----------------------------
+
+    src/components/PlantGraph
+    -------------------------
 
 
 

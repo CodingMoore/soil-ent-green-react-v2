@@ -1,0 +1,9 @@
+https://dev.to/itnext/react-with-firebase-firestore-setup-4ch3
+
+https://linguinecode.com/post/understanding-react-componentdidmount
+
+https://youtu.be/3aoxOtMM2rc
+
+https://stackoverflow.com/questions/45358974/react-setstate-in-promise-causing-infinite-loop
+
+
