@@ -2,7 +2,19 @@ npx create-react-app soil-ent-green-react-v2
 
 npm install --save-exact react-scripts@3.2.0
 
-git init
+git init, create repo, add remote
+
+delete logo.svg, App.test.js, and App.css files.
+
+create components directory inside src, and move App.js into components.
+
+fix index.js file so that the import App line points the the new components directory.
+
+add .env file to .gitignore, commit and push.
+
+add .env file to the project's root directory.
+
+
 
 
 
