@@ -208,6 +208,9 @@ add code to retreive and save date from firestore to this.state.
     export default PlantControl
     --------------------------------------------
 
+"install" (copy files) canvasjs
+https://canvasjs.com/download-html5-charting-graphing-library/
+
 move data call from Control file to its own component file (Graph)
 
     src/components/Plant Control
