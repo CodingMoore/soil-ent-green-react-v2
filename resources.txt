@@ -7,3 +7,6 @@ https://youtu.be/3aoxOtMM2rc
 https://stackoverflow.com/questions/45358974/react-setstate-in-promise-causing-infinite-loop
 
 
+https://canvasjs.com/forums/topic/datetime-stamp-time-zone/
+
+https://stackoverflow.com/questions/4380469/how-do-you-convert-a-javascript-timestamp-into-utc-format/4380482#4380482

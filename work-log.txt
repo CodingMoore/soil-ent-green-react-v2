@@ -10,4 +10,8 @@
 
 3:00 - 4:45: Figuring out how to get hardcoded graph data to display.
 
-4:45 - :
+4:45 - 5:15: Researching Date/Time formats for Canvasjs
+
+5:15 - 6:10: Dinner
+
+6:10 - 7:10: Adjusting dateformat to be readable by both python and javascript(React)

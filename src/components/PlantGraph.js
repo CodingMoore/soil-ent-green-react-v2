@@ -37,7 +37,7 @@ class PlantGraph extends React.Component {
 
   render() {
     const graphData = this.state.masterPlantList.map( dataPoint => {
-      return { x: dataPoint.dateTime, y: dataPoint.moisture }
+      return { x: new Date(dataPoint.dateTime), y: dataPoint.moisture }
     })
     const options = {
       animationEnabled: true,
@@ -129,6 +129,7 @@ class PlantGraph extends React.Component {
       return (
         <React.Fragment>
           {console.log(this.state.masterPlantList)}
+          {console.log("graphData", graphData)}
           <CanvasJSChart options={options} />
         </React.Fragment>
       );
