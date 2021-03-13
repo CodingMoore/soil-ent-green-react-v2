@@ -9,7 +9,7 @@ class PlantGraph extends React.Component {
   constructor() {
     super();
     this.state = {
-      masterPlantList: [{moisture: 0, dateTime: "test"}]
+      masterPlantList: [{}]
     }
   }
 
@@ -27,14 +27,18 @@ class PlantGraph extends React.Component {
     });
   }
 
-  myData() {
-    // const dataObject = this.state.masterPlantList;
-    return this.state.masterPlantList.map( dataPoint => {
-      return { x: dataPoint.dateTime, y: dataPoint.moisture }
-    })
-  }
+  // myData() {
+  //   // const dataObject = this.state.masterPlantList;
+  //   const graphData = this.state.masterPlantList.map( dataPoint => {
+  //     return { x: dataPoint.dateTime, y: dataPoint.moisture }
+  //   })
+  //   return graphData;
+  // }
 
   render() {
+    const graphData = this.state.masterPlantList.map( dataPoint => {
+      return { x: dataPoint.dateTime, y: dataPoint.moisture }
+    })
     const options = {
       animationEnabled: true,
       title:{
@@ -50,7 +54,7 @@ class PlantGraph extends React.Component {
         type: "spline",
         name: "Your Plant",
         showInLegend: true,
-        dataPoints: this.myData
+        dataPoints: graphData
         // [
         // {x: "0", y: 5},
         // {x: "1", y: 3},

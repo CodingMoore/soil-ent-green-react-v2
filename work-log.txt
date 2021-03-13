@@ -8,4 +8,6 @@
 
 10:50 - 3:00: Figuring out how to get data into and out of firebase inside a React class component.
 
-3:00 - :
+3:00 - 4:45: Figuring out how to get hardcoded graph data to display.
+
+4:45 - :
