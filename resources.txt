@@ -14,3 +14,5 @@ https://stackoverflow.com/questions/4380469/how-do-you-convert-a-javascript-time
 https://firebase.google.com/docs/firestore/query-data/order-limit-data
 
 https://sebhastian.com/react-firestore/
+
+https://github.com/googleapis/nodejs-firestore/issues/64

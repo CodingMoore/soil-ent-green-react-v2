@@ -15,12 +15,22 @@ function PlantDetails(props) {
       <h4>{"Notes: " + plant.notes }</h4>
       <h4>{"Yellow Alert At: " + plant.yellowAlertAt }</h4>
       <h4>{"Red Alert At: " + plant.redAlertAt }</h4>
+      <br/>
+      <hr/>
+      <button onClick = { props.onClickingEdit }>Edit Plant</button>
+      <br/>
+      <br/>
+      <button onClick = { props.onClickingDelete }>Delete Plant</button>
+      <hr/>
+      <br/>
     </React.Fragment>
   )
 }
 
 PlantDetails.propTypes = {
-  selectedPlant: PropTypes.func  //is this accurate?
+  selectedPlant: PropTypes.object,
+  onClickingEdit: PropTypes.func,
+  onClickingDelete: PropTypes.func
 };
 
 export default PlantDetails;

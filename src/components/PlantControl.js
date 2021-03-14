@@ -1,6 +1,8 @@
 import React from "react";
 import PlantList from "./PlantList";
 import NewPlant from "./NewPlant";
+import DeletePlant from "./DeletePlant";
+import EditPlant from "./EditPlant";
 import PlantDetails from "./PlantDetails";
 import firebase from "./../firebase/index";
 import "firebase/auth";
@@ -13,8 +15,50 @@ class PlantControl extends React.Component {
       selectedPlant: null,
       plantListView: true,
       plantDetailsView: false,
-      newPlantView: false
+      newPlantView: false,
+      editPlantView: false,
+      deletePlantView: false
     }
+  }
+
+  handleDeletingPlantAndData = () => {
+    console.log("handleDeletingPlantAndData reached");
+
+    const { plantName, machineName, id } = this.state.selectedPlant;
+    
+    firebase.db.collection("plants").doc(id).delete();
+
+    firebase.db.collection("hardware").where("machineName", "==", machineName).get().then(
+      function(querySnapshot) {
+        // var batch = firebase.db.batch();
+        querySnapshot.forEach(function(doc) {
+          // batch.delete(doc.ref);
+          doc.ref.delete();
+        });
+        // return batch.commit();
+      },
+      console.log(plantName + " and its data have been deleted"),
+      this.setState({
+        selectedPlant: null,
+        plantListView: true
+      }),
+      );
+  }
+
+  handleClickToPlantDetailsView = () => {
+    console.log("handelClickToPlantDetails reachec");
+  }
+  
+  handleClickToEditPlantView = () => {
+    console.log("handleClickToEditPlant reached");
+  }
+
+  handleClickToDeletePlantView = () => {
+    console.log("handleClicktoDeletePlant reached");
+    this.setState({
+      plantDetailsView: false,
+      deletePlantView: true
+    })
   }
 
   handleClickToNewPlantView = () => {
@@ -23,7 +67,6 @@ class PlantControl extends React.Component {
       newPlantView: true
     })
   }
-
 
   handleClickToPlantListView = () => {
     this.setState({
@@ -38,6 +81,7 @@ class PlantControl extends React.Component {
     
     firebase.db.collection("plants").doc(id).get().then(doc => {
       const plant = doc.data();
+      // console.log("selectedPlant id", plant);
       const newSelectedPlant = {
         plantName: plant.plantName,
         species: plant.species,
@@ -45,7 +89,7 @@ class PlantControl extends React.Component {
         yellowAlertAt: plant.yellowAlertAt,
         redAlertAt: plant.redAlertAt,
         machineName: plant.machineName,
-        id: plant.id
+        id: id
       }
       this.setState({
         selectedPlant: newSelectedPlant,
@@ -68,11 +112,18 @@ class PlantControl extends React.Component {
       // let buttonTest = null;
       if (this.state.plantDetailsView) {
         currentlyVisibleState = <PlantDetails 
-        selectedPlant = { this.state.selectedPlant }/>
+        selectedPlant = { this.state.selectedPlant }
+        onClickingEdit = { this.handleClickToEditPlantView }
+        onClickingDelete = { this.handleClickToDeletePlantView }/>
       }
       if (this.state.newPlantView) {
         currentlyVisibleState = <NewPlant 
         onNewPlantCreation = { this.handleClickToPlantListView }/>
+      }
+      if (this.state.deletePlantView) {
+        currentlyVisibleState = <DeletePlant 
+        onClickingConfirm = {this.handleDeletingPlantAndData}
+        onClickingDeny = {this.handleClickToPlantDetailsView} />
       }
       if (this.state.plantListView) {
         currentlyVisibleState = <PlantList 

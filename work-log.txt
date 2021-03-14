@@ -31,3 +31,9 @@
 
 3:30 - 6:30: figuring out how to limit users to seeing only their own data.
 
+
+2021-03-14
+
+11:30 - 4:15: move graph to details page.  Add code to control what can be seen and when.  Added delete functionality.
+
+4:15 - 
