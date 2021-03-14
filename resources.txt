@@ -10,3 +10,5 @@ https://stackoverflow.com/questions/45358974/react-setstate-in-promise-causing-i
 https://canvasjs.com/forums/topic/datetime-stamp-time-zone/
 
 https://stackoverflow.com/questions/4380469/how-do-you-convert-a-javascript-timestamp-into-utc-format/4380482#4380482
+
+https://firebase.google.com/docs/firestore/query-data/order-limit-data

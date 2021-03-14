@@ -216,9 +216,568 @@ move data call from Control file to its own component file (Graph)
     src/components/Plant Control
     ----------------------------
 
+    import React from "react";
+    import PlantGraph from "./PlantGraph";
+    //import firebase from "./../firebase/index";
+
+
+    class PlantControl extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+          selectedPlant: null
+        }
+      }
+
+      render() {
+        
+        return (
+          <React.Fragment>
+            <PlantGraph />
+          </React.Fragment>
+        );
+      }
+    }
+
+    export default PlantControl
+    -------------------------------
+
     src/components/PlantGraph
     -------------------------
 
+    import React from "react";
+    import firebase from "./../firebase/index";
+    import CanvasJSReact from "./../canvasjs.react"; 
+
+    //var CanvasJS = CanvasJSReact.CanvasJS;
+    var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+    class PlantGraph extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+          masterPlantList: [{}]
+        }
+      }
+
+
+      componentDidMount() {
+        const doc = firebase.db.collection("hardware").orderBy("dateTime");
+        doc.onSnapshot(docSnapshot => {
+          // console.log(`received doc snapshot: ${docSnapshot}`);
+          const result = docSnapshot.docs.map( doc => {
+          return {...doc.data(), id: doc.id};
+          })
+          this.setState({masterPlantList: result});
+        }, err => {
+          console.log(`There has been an error: ${err}`);
+        });
+      }
+
+      render() {
+        const graphData = this.state.masterPlantList.map( dataPoint => {
+          return { x: new Date(dataPoint.dateTime), y: dataPoint.moisture }
+        })
+        const options = {
+          animationEnabled: true,
+          title:{
+            test:"Soil Moisture Percentage"
+          },
+          axisY:{
+            title: "Moisture Content"
+          },  
+            toolTip: {
+              shared: true
+            },
+          data: [{
+            type: "spline",
+            name: "Your Plant",
+            showInLegend: true,
+            dataPoints: graphData
+            
+          }]
+        }
+        
+        if (!options || !this.state.masterPlantList) {
+          return <>Loading...</>
+        } else { 
+          
+          return (
+            <React.Fragment>
+              {console.log(this.state.masterPlantList)}
+              {console.log("graphData", graphData)}
+              <CanvasJSChart options={options} />
+            </React.Fragment>
+          );
+        }
+      }
+    }
+
+    export default PlantGraph;
+
+
+add authentication: Add email authentication in firestore
+
+npm install react-router-dom (current version 5.2.0)
+
+add header file to src/components
+
+    src/components/Header.js
+    ----------------------
+
+    import React from "react";
+    import { Link } from "react-router-dom";
+
+    function Header() {
+      return (
+        <>
+          <hr/>
+          <h1>Soil-Ent-Green</h1>
+          <ul>
+            <li>
+              <Link to = "/">Home</Link>
+            </li>
+            <li>
+              <Link to = "/signin">Sign In</Link>
+            </li>
+          </ul>
+          <hr/>
+        </>  
+      );
+    }
+
+    export default Header;
+    --------------------------------
+
+in firebase.js add...
+
+    'import "firebase/auth";'
+    and 
+    'const auth = firebase.auth();'
+
+in firebase.js update export statement to include auth "export default... 
+
+    { firebase, db, auth };"
+
+in App.js, add Router import statement and signin import statments...
+
+    src/components/App.js
+    ------------------------
+
+    import  React from "react";
+    import Header from "./Header";
+    import PlantControl from "./PlantControl";
+    import Signin from "./Signin";
+    import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+    function App() {
+      return (
+        <Router>
+          <Header />
+          <Switch>
+            <Route path = "/signin">
+              <Signin />
+            </Route>
+            <Route path = "/">
+              <PlantControl />
+            </Route>
+          </Switch>
+        </Router>
+      );
+    }
+
+    export default App;
+    --------------------------
+
+add Signin.js file to src/components
+
+    src/components/Signin.js
+    -----------------------
+
+    import React from "react";
+    import firebase from "firebase/app";
+
+    function Signin() {
+      function doSignUp(event) {
+        event.preventDefault();
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+        firebase.auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(function(){
+            console.log("You have successfully signed up!");
+          })
+          .catch(function(error) {
+            console.log(error.message);
+          });
+      }
+
+
+      function doSignIn(event) {
+        event.preventDefault();
+        const email = event.target.signinEmail.value;
+        const password = event.target.signinPassword.value;
+        firebase.auth()
+          .signInWithEmailAndPassword(email, password)
+          .then(function() {
+            console.log("You have successfully signed in!");
+          })
+          .catch(function(error) {
+            console.log(error.message);
+          });
+      }
+
+      function doSignOut() {
+        firebase.auth()
+        .signOut()
+        .then(function() {
+          console.log("You have successfully signed out!");
+        })
+        .catch(function(error) {
+          console.log(error.message);
+        });
+      }
+
+      return (
+        <>
+          <h1>Sign Up</h1>
+          <form onSubmit = { doSignUp }>
+            <input
+              type = "text"
+              name = "email"
+              placeholder = "email"/>
+            <input
+              typ = "password"
+              name = "password"
+              placeholder = "Password" />
+            <button type = "submit">Sign up!</button>
+          </form>
+
+          <h1>Sign In</h1>
+          <form onSubmit = { doSignIn }>
+            <input
+              type = "text"
+              name = "signinEmail"
+              placeholder = "email" />
+            <input
+              type = "password"
+              name = "signinPassword"
+              placeholder = "Password" />
+            <button type = "submit">Sign in!</button>  
+          </form>
+
+          <h1>Sign Out</h1>
+          <button onClick = { doSignOut }>Sign out</button> 
+        </>
+      );
+    }
+
+    export default Signin
+    -------------------------------
+
+update Contorlfile with import statement and conditional for render.
+
+    src/components/PlantControl
+    ----------------------------
+
+    import React from "react";
+    import PlantGraph from "./PlantGraph";
+    import firebase from "./../firebase/index";
+    import "firebase/auth";
+
+
+    class PlantControl extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+          selectedPlant: null
+        }
+      }
+
+      render() {
+        // WORKS
+        // console.log("firebase", firebase.auth.currentUser.email);
+        const auth = firebase.auth.currentUser;
+        if (!auth) {
+          return (
+          <h1>You must sign in to access your plants!</h1>
+          )
+        } else {
+          return (
+            <React.Fragment>
+              <PlantGraph />
+            </React.Fragment>
+          );
+        }
+      }
+    }
+
+    export default PlantControl
+    -----------------------------
+
+add Plant.js to src/components
+
+    src/components/Plant.js
+    ------------------------
+
+    import React from "react";
+    import PropTypes from "prop-types";
+
+    function Plant(props) {
+
+      return (
+        <>
+          <hr/>
+          <div onClick = {() => props.whenPlantClicked(props.id)}>
+            <h3>Name: {props.plantName}</h3>
+            <h4>Species: {props.species}</h4>
+            <h4>Notes: {props.notes}</h4>
+            <h4>Yellow Alert Level: {props.yellowAlertAt}</h4>
+            <h4>Red Alert Level: {props.redAlertAt}</h4>
+            <h4>Machine Name: {props.machineName}</h4>
+          </div>
+          <hr/>
+        </>
+      );
+    }
+
+    Plant.propTypes = {
+      plantName: PropTypes.string.isRequired,
+      species: PropTypes.string,
+      notes: PropTypes.string,
+      yellowAlertAt: PropTypes.number,
+      redAlertAt: PropTypes.number,
+      machineName: PropTypes.string.isRequired
+    }
+
+    export default Plant;
+    ---------------------------
+
+add Reusable form
+
+    src/components/ReusablePlantForm.js
+    -----------------------------------
+
+    import React from "react";
+    import PropTypes from "prop-types";
+
+    function ReusablePlantForm(props) {
+      return(
+        <>
+          <hr/>
+          <form onSubmit={props.formSubmissionHandler}>
+            <label for="plantName">Name: </label> 
+            <input
+            type = "text"
+            name = "plantName" />
+            <br/>
+            <label for="species">Species: </label> 
+            <input
+            type = "text"
+            name = "species" />
+            <br/>
+            <label for="notes">Notes: </label> 
+            <input
+            type = "text"
+            name = "notes" />
+            <br/>
+            <label for="yellowAlertAt">Yellow Alert Level: </label> 
+            <input
+            type = "text"
+            name = "yellowAlertAt" />
+            <br/>
+            <label for="redAlertAt">Red Alert Level: </label> 
+            <input
+            type = "text"
+            name = "redAlertAt" />
+            <br/>
+            <label for="hardwareCode">Hardware Code: </label> 
+            <input
+            type = "text"
+            name = "hardwareCode" />
+            <br/>
+            <button type="submit">{props.buttonText}</button>
+          </form>
+          <hr/>
+        </>
+      );
+    }
+
+    ReusablePlantForm.propTypes = {
+      formSubmissionHandler: PropTypes.func,
+      buttonText: PropTypes.string
+    };
+
+    export default ReusablePlantForm;
+    ----------------------------------
+
+add NewPlant
+
+    src/components/NewPlant.js
+    ----------------------------
+
+    import React from "react";
+    import ReusablePlantForm from "./ReusablePlantForm";
+    import PropTypes from "prop-types";
+    import firebase from "./../firebase/index";
+
+    function NewPlant(props) {
+
+      function addPlantToFirebase(event) {
+        event.preventDefault();
+        props.onNewPlantCreation();
+        const userEmail = firebase.auth.currentUser.email;
+
+      
+        return firebase.db.collection("plants").add(
+            {
+              user: userEmail,
+              plantName: event.target.plantName.value,
+              species: event.target.species.value,
+              notes: event.target.notes.value,
+              yellowAlertAt: event.target.yellowAlertAt.value,
+              redAlertAt: event.target.redAlertAt.value,
+              machineName: event.target.hardwareCode.value
+            }
+        );
+      }
+      
+      
+      return(
+        <>
+          <hr/>
+          <ReusablePlantForm 
+          formSubmissionHandler = { addPlantToFirebase }
+          buttonText = "Add New Plant"/>
+          <hr/>
+        </>
+      );
+    }
+
+    NewPlant.propTypes = {
+      onNewPlantCreation: PropTypes.func
+    };
+
+    export default NewPlant;
+    -----------------------------
+
+update control file with NewPlant import and props.
+
+    src/components/PlantControl
+    ----------------------------
+
+    import React from "react";
+    import PlantGraph from "./PlantGraph";
+    import NewPlant from "./NewPlant";
+    import firebase from "./../firebase/index";
+    import "firebase/auth";
+
+
+    class PlantControl extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+          selectedPlant: null
+        }
+      }
+
+      handleAddingNewPlantToList() {
+        console.log("Reached 'handleAddingNewPlantToList' in PlantControl");
+      }
+
+      render() {
+        // WORKS
+        // console.log("firebase", firebase.auth.currentUser.email);
+        const auth = firebase.auth.currentUser;
+        if (!auth) {
+          return (
+          <h1>You must sign in to access your plants!</h1>
+          )
+        } else {
+          return (
+            <React.Fragment>
+              <PlantGraph />
+              <NewPlant 
+              onNewPlantCreation = { this.handleAddingNewPlantToList }/>
+            </React.Fragment>
+          );
+        }
+      }
+    }
+
+    export default PlantControl
+    -------------------------------
+
+add PlantList.js file to src/components.
+
+    src/components/PlantList.js
+    -----------------------------
+
+    import React from "react";
+    import PropTypes from "prop-types";
+    import Plant from "./Plant";
+    import firebase from "./../firebase/index";
+
+    class PlantList extends React.Component {
+      constructor(props) {
+        super(props)
+        this.state = {
+          userPlantList: [{}]
+        }
+      }
+      
+      componentDidMount() {
+        const userEmail = firebase.auth.currentUser.email;
+        const doc = firebase.db.collection("plants").where("user", "==",  userEmail).orderBy("plantName");
+        console.log(userEmail);
+        console.log("doc", doc);
+        doc.onSnapshot(docSnapshot => {
+          console.log(`received doc snapshot: ${docSnapshot}`);
+          const result = docSnapshot.docs.map( doc => {
+          return {...doc.data(), id: doc.id};
+          })
+          console.log("result", result);
+          this.setState({userPlantList: result});
+        }, err => {
+          console.log(`There has been an error: ${err}`);
+        });
+      }
+      render() {
+        const userPlants = this.state.userPlantList;
+        if (userPlants) {
+          return (
+            <React.Fragment>
+              <hr/>
+              {userPlants.map((plant) => {
+                return <Plant 
+                whenPlantClicked = { this.props.onPlantSelection }
+                plantName = { plant.plantName }
+                species = { plant.species }
+                id = { plant.id }
+                key = { plant.id }/>
+                })
+              }
+              {/* <PlantStatus /> */}
+            </React.Fragment>
+          );
+        } else {
+          return (
+            <>
+              <h3>Loading...</h3>
+            </>
+          )
+        }
+      }
+    }
+
+    PlantList.propTypes = {
+      onPlantSelection: PropTypes.func
+    };
+
+    export default PlantList; 
+    -------------------------------
+
+LOOK IN CONSOLE TO SEE IF YOU ARE PROMPTED TO CREATE AN (composite) INDEX.  CLICK THE LINK AND ALLOW FIRESTORE TO CREATE IT FOR YOU!
 
 
 
