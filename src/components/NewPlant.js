@@ -19,7 +19,7 @@ function NewPlant(props) {
           notes: event.target.notes.value,
           yellowAlertAt: event.target.yellowAlertAt.value,
           redAlertAt: event.target.redAlertAt.value,
-          machineName: event.target.hardwareCode.value
+          machineName: event.target.machineName.value
         }
     );
   }

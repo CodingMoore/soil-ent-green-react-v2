@@ -529,12 +529,12 @@ add Plant.js to src/components
         <>
           <hr/>
           <div onClick = {() => props.whenPlantClicked(props.id)}>
-            <h3>Name: {props.plantName}</h3>
-            <h4>Species: {props.species}</h4>
-            <h4>Notes: {props.notes}</h4>
-            <h4>Yellow Alert Level: {props.yellowAlertAt}</h4>
-            <h4>Red Alert Level: {props.redAlertAt}</h4>
-            <h4>Machine Name: {props.machineName}</h4>
+            <h3>{props.plantName}</h3>
+            <h4>{props.species}</h4>
+            <h4>{props.notes}</h4>
+            <h4>{props.yellowAlertAt}</h4>
+            <h4>{props.redAlertAt}</h4>
+            <h4>{props.machineName}</h4>
           </div>
           <hr/>
         </>
@@ -577,7 +577,7 @@ add Reusable form
             name = "species" />
             <br/>
             <label for="notes">Notes: </label> 
-            <input
+            <textarea
             type = "text"
             name = "notes" />
             <br/>
@@ -591,10 +591,10 @@ add Reusable form
             type = "text"
             name = "redAlertAt" />
             <br/>
-            <label for="hardwareCode">Hardware Code: </label> 
+            <label for="machineName">Machine Name: </label> 
             <input
             type = "text"
-            name = "hardwareCode" />
+            name = "machineName" />
             <br/>
             <button type="submit">{props.buttonText}</button>
           </form>
@@ -637,7 +637,7 @@ add NewPlant
               notes: event.target.notes.value,
               yellowAlertAt: event.target.yellowAlertAt.value,
               redAlertAt: event.target.redAlertAt.value,
-              machineName: event.target.hardwareCode.value
+              machineName: event.target.machineName.value
             }
         );
       }
@@ -751,8 +751,8 @@ add PlantList.js file to src/components.
               {userPlants.map((plant) => {
                 return <Plant 
                 whenPlantClicked = { this.props.onPlantSelection }
-                plantName = { plant.plantName }
-                species = { plant.species }
+                plantName =  {"Name: " + plant.plantName }
+                species = {"Species: " + plant.species }
                 id = { plant.id }
                 key = { plant.id }/>
                 })
@@ -779,5 +779,342 @@ add PlantList.js file to src/components.
 
 LOOK IN CONSOLE TO SEE IF YOU ARE PROMPTED TO CREATE AN (composite) INDEX.  CLICK THE LINK AND ALLOW FIRESTORE TO CREATE IT FOR YOU!
 
+add details.js file to src/components.
+
+move PlantGraph to import into PlantDetails.
+
+add selectedPlant to PlantControl state.
+
+add code to control what is visible and what is not.
+
+update PlantGraph as needed? I can't even remember anymore...
+
+    src/components/PlantControl.js
+    -------------------------------
+
+    import React from "react";
+    import PlantList from "./PlantList";
+    import NewPlant from "./NewPlant";
+    import PlantDetails from "./PlantDetails";
+    import firebase from "./../firebase/index";
+    import "firebase/auth";
 
 
+    class PlantControl extends React.Component {
+      constructor() {
+        super();
+        this.state = {
+          selectedPlant: null,
+          plantListView: true,
+          plantDetailsView: false,
+          newPlantView: false
+        }
+      }
+
+      handleClickToNewPlantView = () => {
+        this.setState({
+          plantListView: false,
+          newPlantView: true
+        })
+      }
+
+
+      handleClickToPlantListView = () => {
+        this.setState({
+          plantListView: true,
+          newPlantView: false
+        })
+      }
+
+      handleChangingSelectedPlant = (id) => {
+        console.log("Reached 'handleChangingSelectedPlant'");
+        console.log(id);
+        
+        firebase.db.collection("plants").doc(id).get().then(doc => {
+          const plant = doc.data();
+          const newSelectedPlant = {
+            plantName: plant.plantName,
+            species: plant.species,
+            notes: plant.notes,
+            yellowAlertAt: plant.yellowAlertAt,
+            redAlertAt: plant.redAlertAt,
+            machineName: plant.machineName,
+            id: plant.id
+          }
+          this.setState({
+            selectedPlant: newSelectedPlant,
+            plantListView: false,
+            plantDetailsView: true
+          })
+        });
+      }
+      
+      render() {
+        // WORKS
+        // console.log("firebase", firebase.auth.currentUser.email);
+        const auth = firebase.auth.currentUser;
+        if (!auth) {
+          return (
+          <h1>You must sign in to access your plants!</h1>
+          )
+        } else {
+          let currentlyVisibleState = null;
+          // let buttonTest = null;
+          if (this.state.plantDetailsView) {
+            currentlyVisibleState = <PlantDetails 
+            selectedPlant = { this.state.selectedPlant }/>
+          }
+          if (this.state.newPlantView) {
+            currentlyVisibleState = <NewPlant 
+            onNewPlantCreation = { this.handleClickToPlantListView }/>
+          }
+          if (this.state.plantListView) {
+            currentlyVisibleState = <PlantList 
+            onPlantSelection = { this.handleChangingSelectedPlant }
+            />
+            return (
+              <React.Fragment>
+                { currentlyVisibleState }
+                <button onClick = { this.handleClickToNewPlantView }>Add New Plant</button>
+              </React.Fragment>
+            )
+          }
+          return (
+            <React.Fragment>
+              { currentlyVisibleState }
+              <button onClick = { this.handleClickToPlantListView }>My Plants</button>
+            </React.Fragment>
+          );
+        }
+      }
+    }
+
+    export default PlantControl
+    --------------------------------
+
+    src/components/PlantDetails.js
+    -------------------------------
+
+    import React from "react";
+    import PlantGraph from "./PlantGraph";
+    import PropTypes from "prop-types";
+
+    function PlantDetails(props) {
+
+      const plant = props.selectedPlant;
+
+      return (
+        <React.Fragment>
+          <PlantGraph 
+          plantToGraph = { props.selectedPlant }/>
+          <h3>{"Name: " + plant.plantName }</h3>
+          <h4>{"Species: " + plant.species }</h4>
+          <h4>{"Notes: " + plant.notes }</h4>
+          <h4>{"Yellow Alert At: " + plant.yellowAlertAt }</h4>
+          <h4>{"Red Alert At: " + plant.redAlertAt }</h4>
+        </React.Fragment>
+      )
+    }
+
+    PlantDetails.propTypes = {
+      selectedPlant: PropTypes.func  //is this accurate?
+    };
+
+    export default PlantDetails;
+    ------------------------------
+
+    src/components/PlantGraph.js
+    -------------------------------
+
+    import React from "react";
+    import firebase from "./../firebase/index";
+    import CanvasJSReact from "./../canvasjs.react";
+    import PropTypes from "prop-types";
+
+
+    //var CanvasJS = CanvasJSReact.CanvasJS;
+    var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+    class PlantGraph extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          selectedPlantData: [{}]
+        }
+      }
+      
+      componentDidMount() {
+        const selectedMachineName = this.props.plantToGraph.machineName
+        console.log("selectedMachineName", selectedMachineName);
+        const doc = firebase.db.collection("hardware").where("machineName", "==", selectedMachineName).orderBy("dateTime");
+        doc.onSnapshot(docSnapshot => {
+          // console.log(`received doc snapshot: ${docSnapshot}`);
+          const result = docSnapshot.docs.map( doc => {
+          return {...doc.data(), id: doc.id};
+          })
+          this.setState({selectedPlantData: result});
+        }, err => {
+          console.log(`There has been an error: ${err}`);
+        });
+      }
+
+      render() {
+        const graphData = this.state.selectedPlantData.map( dataPoint => {
+          return { x: new Date(dataPoint.dateTime), y: dataPoint.moisture }
+        })
+        const options = {
+          animationEnabled: true,
+          title:{
+            test:"Soil Moisture Percentage"
+          },
+          axisY:{
+            title: "Moisture Content"
+          },  
+            toolTip: {
+              shared: true
+            },
+          data: [{
+            type: "spline",
+            name: "selectedPlant",
+            showInLegend: true,
+            dataPoints: graphData
+            
+          }]
+        }
+        
+        if (!options || !this.state.selectedPlantData) {
+          return <>Loading...</>
+        } else { 
+          
+          return (
+            <React.Fragment>
+              {console.log(this.state.selectedPlantData)}
+              {console.log("graphData", graphData)}
+              <CanvasJSChart options={options} />
+            </React.Fragment>
+          );
+        }
+      }
+    }
+
+    PlantGraph.propTypes = {
+      plantToGraph: PropTypes.func  //is this accurate?
+    }
+
+    export default PlantGraph;
+    -----------------------------
+
+    src/components/NewPlant.js
+    ----------------------------
+
+    import React from "react";
+    import ReusablePlantForm from "./ReusablePlantForm";
+    import PropTypes from "prop-types";
+    import firebase from "./../firebase/index";
+
+    function NewPlant(props) {
+
+      function addPlantToFirebase(event) {
+        event.preventDefault();
+        props.onNewPlantCreation();
+        const userEmail = firebase.auth.currentUser.email;
+
+      
+        return firebase.db.collection("plants").add(
+            {
+              user: userEmail,
+              plantName: event.target.plantName.value,
+              species: event.target.species.value,
+              notes: event.target.notes.value,
+              yellowAlertAt: event.target.yellowAlertAt.value,
+              redAlertAt: event.target.redAlertAt.value,
+              machineName: event.target.machineName.value
+            }
+        );
+      }
+      
+      
+      return(
+        <>
+          <hr/>
+          <ReusablePlantForm 
+          formSubmissionHandler = { addPlantToFirebase }
+          buttonText = "Add New Plant"/>
+          <hr/>
+        </>
+      );
+    }
+
+    NewPlant.propTypes = {
+      onNewPlantCreation: PropTypes.func
+    };
+
+    export default NewPlant;
+    ---------------------------
+
+    src/components/PlantList.js
+    -----------------------------
+
+    import React from "react";
+    import PropTypes from "prop-types";
+    import Plant from "./Plant";
+    import firebase from "./../firebase/index";
+
+    class PlantList extends React.Component {
+      constructor(props) {
+        super(props)
+        this.state = {
+          userPlantList: [{}]
+        }
+      }
+      
+      componentDidMount() {
+        const userEmail = firebase.auth.currentUser.email;
+        const doc = firebase.db.collection("plants").where("user", "==",  userEmail).orderBy("plantName");
+        console.log(userEmail);
+        console.log("doc", doc);
+        doc.onSnapshot(docSnapshot => {
+          console.log(`received doc snapshot: ${docSnapshot}`);
+          const result = docSnapshot.docs.map( doc => {
+          return {...doc.data(), id: doc.id};
+          })
+          console.log("result", result);
+          this.setState({userPlantList: result});
+        }, err => {
+          console.log(`There has been an error: ${err}`);
+        });
+      }
+      render() {
+        const userPlants = this.state.userPlantList;
+        if (userPlants) {
+          return (
+            <React.Fragment>
+              <hr/>
+              {userPlants.map((plant) => {
+                return <Plant 
+                whenPlantClicked = { this.props.onPlantSelection }
+                plantName =  {"Name: " + plant.plantName }
+                species = {"Species: " + plant.species }
+                id = { plant.id }
+                key = { plant.id }/>
+                })
+              }
+              {/* <PlantStatus /> */}
+            </React.Fragment>
+          );
+        } else {
+          return (
+            <>
+              <h3>Loading...</h3>
+            </>
+          )
+        }
+      }
+    }
+
+    PlantList.propTypes = {
+      onPlantSelection: PropTypes.func
+    };
+
+    export default PlantList;
+    -----------------------------

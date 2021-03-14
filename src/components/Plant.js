@@ -7,12 +7,12 @@ function Plant(props) {
     <>
       <hr/>
       <div onClick = {() => props.whenPlantClicked(props.id)}>
-        <h3>Name: {props.plantName}</h3>
-        <h4>Species: {props.species}</h4>
-        <h4>Notes: {props.notes}</h4>
-        <h4>Yellow Alert Level: {props.yellowAlertAt}</h4>
-        <h4>Red Alert Level: {props.redAlertAt}</h4>
-        <h4>Machine Name: {props.machineName}</h4>
+        <h3>{props.plantName}</h3>
+        <h4>{props.species}</h4>
+        <h4>{props.notes}</h4>
+        <h4>{props.yellowAlertAt}</h4>
+        <h4>{props.redAlertAt}</h4>
+        <h4>{props.machineName}</h4>
       </div>
       <hr/>
     </>

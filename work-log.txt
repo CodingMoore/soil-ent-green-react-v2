@@ -29,4 +29,5 @@
 
 2:30 - 3:30: yard work
 
-3:30 - :
+3:30 - 6:30: figuring out how to limit users to seeing only their own data.
+

@@ -1,35 +1,37 @@
 import React from "react";
 import firebase from "./../firebase/index";
-import CanvasJSReact from "./../canvasjs.react"; 
+import CanvasJSReact from "./../canvasjs.react";
+import PropTypes from "prop-types";
 
 
 //var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class PlantGraph extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      masterPlantList: [{}]
+      selectedPlantData: [{}]
     }
   }
-
-
+  
   componentDidMount() {
-    const doc = firebase.db.collection("hardware").orderBy("dateTime");
+    const selectedMachineName = this.props.plantToGraph.machineName
+    console.log("selectedMachineName", selectedMachineName);
+    const doc = firebase.db.collection("hardware").where("machineName", "==", selectedMachineName).orderBy("dateTime");
     doc.onSnapshot(docSnapshot => {
       // console.log(`received doc snapshot: ${docSnapshot}`);
       const result = docSnapshot.docs.map( doc => {
       return {...doc.data(), id: doc.id};
       })
-      this.setState({masterPlantList: result});
+      this.setState({selectedPlantData: result});
     }, err => {
       console.log(`There has been an error: ${err}`);
     });
   }
 
   render() {
-    const graphData = this.state.masterPlantList.map( dataPoint => {
+    const graphData = this.state.selectedPlantData.map( dataPoint => {
       return { x: new Date(dataPoint.dateTime), y: dataPoint.moisture }
     })
     const options = {
@@ -52,19 +54,23 @@ class PlantGraph extends React.Component {
       }]
     }
     
-    if (!options || !this.state.masterPlantList) {
+    if (!options || !this.state.selectedPlantData) {
       return <>Loading...</>
     } else { 
       
       return (
         <React.Fragment>
-          {console.log(this.state.masterPlantList)}
+          {console.log(this.state.selectedPlantData)}
           {console.log("graphData", graphData)}
           <CanvasJSChart options={options} />
         </React.Fragment>
       );
     }
   }
+}
+
+PlantGraph.propTypes = {
+  plantToGraph: PropTypes.func  //is this accurate?
 }
 
 export default PlantGraph;

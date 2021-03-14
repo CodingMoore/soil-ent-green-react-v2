@@ -6,35 +6,35 @@ function ReusablePlantForm(props) {
     <>
       <hr/>
       <form onSubmit={props.formSubmissionHandler}>
-        <label for="plantName">Name: </label> 
+        <label htmlFor="plantName">Name: </label> 
         <input
         type = "text"
-        name = "plantName" />
+        name = "plantName" required/>
         <br/>
-        <label for="species">Species: </label> 
+        <label htmlFor="species">Species: </label> 
         <input
         type = "text"
         name = "species" />
         <br/>
-        <label for="notes">Notes: </label> 
-        <input
+        <label htmlFor="notes">Notes: </label> 
+        <textarea
         type = "text"
         name = "notes" />
         <br/>
-        <label for="yellowAlertAt">Yellow Alert Level: </label> 
+        <label htmlFor="yellowAlertAt">Yellow Alert Level: </label> 
         <input
         type = "text"
         name = "yellowAlertAt" />
         <br/>
-        <label for="redAlertAt">Red Alert Level: </label> 
+        <label htmlFor="redAlertAt">Red Alert Level: </label> 
         <input
         type = "text"
         name = "redAlertAt" />
         <br/>
-        <label for="hardwareCode">Machine Name: </label> 
+        <label htmlFor="machineName">Machine Name: </label> 
         <input
         type = "text"
-        name = "hardwareCode" />
+        name = "machineName" required/>
         <br/>
         <button type="submit">{props.buttonText}</button>
       </form>

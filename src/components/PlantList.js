@@ -36,8 +36,8 @@ class PlantList extends React.Component {
           {userPlants.map((plant) => {
             return <Plant 
             whenPlantClicked = { this.props.onPlantSelection }
-            plantName = { plant.plantName }
-            species = { plant.species }
+            plantName =  {"Name: " + plant.plantName }
+            species = {"Species: " + plant.species }
             id = { plant.id }
             key = { plant.id }/>
             })
