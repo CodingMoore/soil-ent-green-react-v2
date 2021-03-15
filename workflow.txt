@@ -1119,5 +1119,7 @@ update PlantGraph as needed? I can't even remember anymore...
     export default PlantList;
     -----------------------------
 
-add Delete Functionality....etc. etc. etc..
+add Delete Functionality
+add Edit Functionality
+....etc. etc. etc..
 

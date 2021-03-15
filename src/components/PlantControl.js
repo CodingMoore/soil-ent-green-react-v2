@@ -39,24 +39,44 @@ class PlantControl extends React.Component {
       },
       console.log(plantName + " and its data have been deleted"),
       this.setState({
-        selectedPlant: null,
-        plantListView: true
+        plantListView: true,
+        plantDetailsView: false,
+        newPlantView: false,
+        editPlantView: false,
+        deletePlantView: false
       }),
       );
   }
 
   handleClickToPlantDetailsView = () => {
     console.log("handelClickToPlantDetails reachec");
+    this.setState({
+      plantListView: false,
+      plantDetailsView: true,
+      newPlantView: false,
+      editPlantView: false,
+      deletePlantView: false
+    })
   }
   
   handleClickToEditPlantView = () => {
     console.log("handleClickToEditPlant reached");
+    this.setState({
+      plantListView: false,
+      plantDetailsView: false,
+      newPlantView: false,
+      editPlantView: true,
+      deletePlantView: false
+    })
   }
 
   handleClickToDeletePlantView = () => {
     console.log("handleClicktoDeletePlant reached");
     this.setState({
+      plantListView: false,
       plantDetailsView: false,
+      newPlantView: false,
+      editPlantView: false,
       deletePlantView: true
     })
   }
@@ -64,14 +84,20 @@ class PlantControl extends React.Component {
   handleClickToNewPlantView = () => {
     this.setState({
       plantListView: false,
-      newPlantView: true
+      plantDetailsView: false,
+      newPlantView: true,
+      editPlantView: false,
+      deletePlantView: false
     })
   }
 
   handleClickToPlantListView = () => {
     this.setState({
       plantListView: true,
-      newPlantView: false
+      plantDetailsView: false,
+      newPlantView: false,
+      editPlantView: false,
+      deletePlantView: false
     })
   }
 
@@ -94,7 +120,10 @@ class PlantControl extends React.Component {
       this.setState({
         selectedPlant: newSelectedPlant,
         plantListView: false,
-        plantDetailsView: true
+        plantDetailsView: true,
+        newPlantView: false,
+        editPlantView: false,
+        deletePlantView: false
       })
     });
   }
@@ -115,6 +144,11 @@ class PlantControl extends React.Component {
         selectedPlant = { this.state.selectedPlant }
         onClickingEdit = { this.handleClickToEditPlantView }
         onClickingDelete = { this.handleClickToDeletePlantView }/>
+      }
+      if (this.state.editPlantView) {
+        currentlyVisibleState = <EditPlant
+        selectedPlant = { this.state.selectedPlant }
+        onPlantUpdate = { this.handleClickToPlantListView } />
       }
       if (this.state.newPlantView) {
         currentlyVisibleState = <NewPlant 

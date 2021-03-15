@@ -36,4 +36,4 @@
 
 11:30 - 4:15: move graph to details page.  Add code to control what can be seen and when.  Added delete functionality.
 
-4:15 - 
+4:15 - 5:30: add Edit functionality - FULL CRUD ACHIEVED!

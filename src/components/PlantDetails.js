@@ -15,6 +15,7 @@ function PlantDetails(props) {
       <h4>{"Notes: " + plant.notes }</h4>
       <h4>{"Yellow Alert At: " + plant.yellowAlertAt }</h4>
       <h4>{"Red Alert At: " + plant.redAlertAt }</h4>
+      <h4>{"Machine Name: " + plant.machineName }</h4>
       <br/>
       <hr/>
       <button onClick = { props.onClickingEdit }>Edit Plant</button>

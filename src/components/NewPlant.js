@@ -5,11 +5,10 @@ import firebase from "./../firebase/index";
 
 function NewPlant(props) {
 
-  function addPlantToFirebase(event) {
+  function addPlantToFirestore(event) {
     event.preventDefault();
     props.onNewPlantCreation();
     const userEmail = firebase.auth.currentUser.email;
-
   
     return firebase.db.collection("plants").add(
         {
@@ -24,12 +23,11 @@ function NewPlant(props) {
     );
   }
   
-  
   return(
     <>
       <hr/>
       <ReusablePlantForm 
-      formSubmissionHandler = { addPlantToFirebase }
+      formSubmissionHandler = { addPlantToFirestore }
       buttonText = "Add New Plant"/>
       <hr/>
     </>
