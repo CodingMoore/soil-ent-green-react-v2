@@ -35,6 +35,7 @@ class PlantGraph extends React.Component {
       return { x: new Date(dataPoint.dateTime), y: dataPoint.moisture }
     })
     const options = {
+      backgroundColor: "#e6efee",
       animationEnabled: true,
       title:{
         test:"Soil Moisture Percentage"
@@ -48,7 +49,7 @@ class PlantGraph extends React.Component {
       data: [{
         type: "splineArea",
         name: this.props.plantToGraph.plantName,
-        showInLegend: true,
+        showInLegend: false,
         dataPoints: graphData
         
       }]
@@ -62,7 +63,9 @@ class PlantGraph extends React.Component {
         <React.Fragment>
           {console.log(this.state.selectedPlantData)}
           {console.log("graphData", graphData)}
-          <CanvasJSChart options={options} />
+          <div className="plantCard">
+            <CanvasJSChart options={options} />
+          </div>
         </React.Fragment>
       );
     }

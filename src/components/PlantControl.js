@@ -174,6 +174,8 @@ class PlantControl extends React.Component {
         <React.Fragment>
           { currentlyVisibleState }
           <button onClick = { this.handleClickToPlantListView }>My Plants</button>
+          <br/>
+          <br/>
         </React.Fragment>
       );
     }
