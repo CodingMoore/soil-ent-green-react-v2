@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Plant from "./Plant";
 import firebase from "./../firebase/index";
+import "./../App.scss";
 
 class PlantList extends React.Component {
   constructor(props) {
@@ -32,17 +33,20 @@ class PlantList extends React.Component {
     if (userPlants) {
       return (
         <React.Fragment>
-          <hr/>
-          {userPlants.map((plant) => {
-            return <Plant 
-            whenPlantClicked = { this.props.onPlantSelection }
-            plantName =  {"Name: " + plant.plantName }
-            species = {"Species: " + plant.species }
-            id = { plant.id }
-            key = { plant.id }/>
-            })
-          }
-          {/* <PlantStatus /> */}
+          {/* <div className="plantCard"> */}
+            {userPlants.map((plant) => {
+              return <Plant 
+              whenPlantClicked = { this.props.onPlantSelection }
+              
+              plantName =  {"Name: " + plant.plantName }
+              species = {"Species: " + plant.species }
+              
+              id = { plant.id }
+              key = { plant.id }/>
+              })
+            }
+            {/* <PlantStatus /> */}
+          {/* </div> */}
         </React.Fragment>
       );
     } else {

@@ -1,0 +1,85 @@
+#body {
+  // background-color: rgb(5, 74, 87);
+  background-color: #283d3b;
+  // min-height: 100%;
+  background-size: cover;
+  
+  // background-color: #197278;
+  // background-color: #edddd4;
+  // background-color: #c44536;
+  // background-color: #772e25;
+}
+
+.container {
+  // background-color: rgb(66, 60, 51);
+  background-color: #edddd4;
+  margin-bottom: 20pt;
+  padding-bottom: 20pt;
+  // min-height: 100%;
+  background-size: cover;
+}
+
+.headerText {
+  text-align: center;
+  font-size: 40pt;
+  font-weight: bolder;
+  color: #283d3b;
+}
+.navBar {
+  background-color: #772e25;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 10px;
+  padding-left: 20pt;
+  padding-right: 20pt;
+  padding-top: 10pt;
+  padding-bottom: 10pt;
+  margin-top: 15pt;
+  margin-bottom: 15pt;
+}
+
+.navButtonBox {
+  flex: content;
+}
+
+.navButton {
+  background-color: #edddd4;
+  border-radius: 5pt;
+  font-family: helvetica;
+  font-weight: bolder;
+}
+
+.linkButton {
+  color: black;
+}
+
+// #myPlantsButton {
+//   flex-direction: left;
+// }
+
+// #signInButton{
+//   align: right;
+// }
+
+.plantCard {
+  
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 10px;
+  padding-left: 20pt;
+  padding-right: 20pt;
+  padding-top: 10pt;
+  padding-bottom: 10pt;
+  margin-top: 15pt;
+  margin-bottom: 15pt;
+  // background-color: #429275;
+  background-color: #197278;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
