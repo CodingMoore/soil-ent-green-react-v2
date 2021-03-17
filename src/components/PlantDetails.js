@@ -10,14 +10,15 @@ function PlantDetails(props) {
     <React.Fragment>
       <PlantGraph 
       plantToGraph = { props.selectedPlant }/>
-      <h3>{"Name: " + plant.plantName }</h3>
-      <h4>{"Species: " + plant.species }</h4>
-      <h4>{"Notes: " + plant.notes }</h4>
-      <h4>{"Yellow Alert At: " + plant.yellowAlertAt }</h4>
-      <h4>{"Red Alert At: " + plant.redAlertAt }</h4>
-      <h4>{"Machine Name: " + plant.machineName }</h4>
+      <div className="plantCard">
+        <h3>{"Name: " + plant.plantName }</h3>
+        <h4>{"Species: " + plant.species }</h4>
+        <h4>{"Notes: " + plant.notes }</h4>
+        <h4>{"Yellow Alert At: " + plant.yellowAlertAt }</h4>
+        <h4>{"Red Alert At: " + plant.redAlertAt }</h4>
+        <h4>{"Machine Name: " + plant.machineName }</h4>
+      </div>
       <br/>
-      <hr/>
       <button onClick = { props.onClickingEdit }>Edit Plant</button>
       <br/>
       <br/>

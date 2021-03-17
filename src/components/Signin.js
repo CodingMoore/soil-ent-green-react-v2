@@ -44,34 +44,36 @@ function Signin() {
 
   return (
     <>
-      <h1>Sign Up</h1>
-      <form onSubmit = { doSignUp }>
-        <input
-          type = "text"
-          name = "email"
-          placeholder = "email"/>
-        <input
-          typ = "password"
-          name = "password"
-          placeholder = "Password" />
-        <button type = "submit">Sign up!</button>
-      </form>
+      <div className="plantCard">
+        <h1>Sign Up</h1>
+        <form onSubmit = { doSignUp }>
+          <input
+            type = "text"
+            name = "email"
+            placeholder = "email"/>
+          <input
+            typ = "password"
+            name = "password"
+            placeholder = "Password" />
+          <button type = "submit">Sign up!</button>
+        </form>
 
-      <h1>Sign In</h1>
-      <form onSubmit = { doSignIn }>
-        <input
-          type = "text"
-          name = "signinEmail"
-          placeholder = "email" />
-        <input
-          type = "password"
-          name = "signinPassword"
-          placeholder = "Password" />
-        <button type = "submit">Sign in!</button>  
-      </form>
+        <h1>Sign In</h1>
+        <form onSubmit = { doSignIn }>
+          <input
+            type = "text"
+            name = "signinEmail"
+            placeholder = "email" />
+          <input
+            type = "password"
+            name = "signinPassword"
+            placeholder = "Password" />
+          <button type = "submit">Sign in!</button>  
+        </form>
 
-      <h1>Sign Out</h1>
-      <button onClick = { doSignOut }>Sign out</button> 
+        <h1>Sign Out</h1>
+        <button onClick = { doSignOut }>Sign out</button> 
+      </div>
     </>
   );
 }

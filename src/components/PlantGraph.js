@@ -46,8 +46,8 @@ class PlantGraph extends React.Component {
           shared: true
         },
       data: [{
-        type: "spline",
-        name: "selectedPlant",
+        type: "splineArea",
+        name: this.props.plantToGraph.plantName,
         showInLegend: true,
         dataPoints: graphData
         

@@ -134,7 +134,7 @@ class PlantControl extends React.Component {
     const auth = firebase.auth.currentUser;
     if (!auth) {
       return (
-      <h1>You must sign in to access your plants!</h1>
+      <h1 className="plantCard" id="loginText">You must sign in to access your plants!</h1>
       )
     } else {
       let currentlyVisibleState = null;
