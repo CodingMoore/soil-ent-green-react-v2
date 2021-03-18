@@ -25,11 +25,12 @@ function EditPlant(props) {
   
   return (
     <React.Fragment>
-      <h1>Edit Plant Placeholder</h1>
-      <ReusablePlantForm
-      originalValues = { plantToUpdate } 
-      formSubmissionHandler = { updatePlantInFirestore }
-      buttonText = "Submit Changes"/>
+      <div className="plantCard">
+        <ReusablePlantForm
+        originalValues = { plantToUpdate } 
+        formSubmissionHandler = { updatePlantInFirestore }
+        buttonText = "Submit Changes"/>
+      </div>
     </React.Fragment>
   )
 }

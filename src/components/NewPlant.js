@@ -25,11 +25,11 @@ function NewPlant(props) {
   
   return(
     <>
-      <hr/>
-      <ReusablePlantForm 
-      formSubmissionHandler = { addPlantToFirestore }
-      buttonText = "Add New Plant"/>
-      <hr/>
+      <div className="plantCard">
+        <ReusablePlantForm 
+        formSubmissionHandler = { addPlantToFirestore }
+        buttonText = "Add New Plant"/>
+      </div>
     </>
   );
 }
