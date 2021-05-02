@@ -15,38 +15,33 @@ class PlantList extends React.Component {
   componentDidMount() {
     const userEmail = firebase.auth.currentUser.email;
     const doc = firebase.db.collection("plants").where("user", "==",  userEmail).orderBy("plantName");
-    console.log(userEmail);
-    console.log("doc", doc);
+
     doc.onSnapshot(docSnapshot => {
-      console.log(`received doc snapshot: ${docSnapshot}`);
       const result = docSnapshot.docs.map( doc => {
-      return {...doc.data(), id: doc.id};
-      })
-      console.log("result", result);
+        return {...doc.data(), id: doc.id};
+        })
       this.setState({userPlantList: result});
     }, err => {
       console.log(`There has been an error: ${err}`);
     });
   }
+
   render() {
     const userPlants = this.state.userPlantList;
     if (userPlants) {
       return (
         <React.Fragment>
-          {/* <div className="plantCard"> */}
-            {userPlants.map((plant) => {
-              return <Plant 
-              whenPlantClicked = { this.props.onPlantSelection }
-              
-              plantName =  {"Name: " + plant.plantName }
-              species = {"Species: " + plant.species }
-              
-              id = { plant.id }
-              key = { plant.id }/>
-              })
-            }
-            {/* <PlantStatus /> */}
-          {/* </div> */}
+          {userPlants.map((plant) => {
+            return <Plant 
+            whenPlantClicked = { this.props.onPlantSelection }
+            
+            plantName =  {"Name: " + plant.plantName }
+            species = {"Species: " + plant.species }
+            
+            id = { plant.id }
+            key = { plant.id }/>
+            })
+          }
         </React.Fragment>
       );
     } else {

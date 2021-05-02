@@ -4,7 +4,6 @@ import firebase from "./../firebase/index";
 import PropTypes from "prop-types";
 
 function EditPlant(props) {
-
   const plantToUpdate = props.selectedPlant;
 
   function updatePlantInFirestore(event) {

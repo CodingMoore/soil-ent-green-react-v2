@@ -7,7 +7,6 @@ import PlantDetails from "./PlantDetails";
 import firebase from "./../firebase/index";
 import "firebase/auth";
 
-
 class PlantControl extends React.Component {
   constructor() {
     super();
@@ -22,22 +21,16 @@ class PlantControl extends React.Component {
   }
 
   handleDeletingPlantAndData = () => {
-    console.log("handleDeletingPlantAndData reached");
-
-    const { plantName, machineName, id } = this.state.selectedPlant;
+    const { machineName, id } = this.state.selectedPlant;
     
     firebase.db.collection("plants").doc(id).delete();
 
     firebase.db.collection("hardware").where("machineName", "==", machineName).get().then(
       function(querySnapshot) {
-        // var batch = firebase.db.batch();
         querySnapshot.forEach(function(doc) {
-          // batch.delete(doc.ref);
           doc.ref.delete();
         });
-        // return batch.commit();
       },
-      console.log(plantName + " and its data have been deleted"),
       this.setState({
         plantListView: true,
         plantDetailsView: false,
@@ -49,7 +42,6 @@ class PlantControl extends React.Component {
   }
 
   handleClickToPlantDetailsView = () => {
-    console.log("handelClickToPlantDetails reachec");
     this.setState({
       plantListView: false,
       plantDetailsView: true,
@@ -60,7 +52,6 @@ class PlantControl extends React.Component {
   }
   
   handleClickToEditPlantView = () => {
-    console.log("handleClickToEditPlant reached");
     this.setState({
       plantListView: false,
       plantDetailsView: false,
@@ -71,7 +62,6 @@ class PlantControl extends React.Component {
   }
 
   handleClickToDeletePlantView = () => {
-    console.log("handleClicktoDeletePlant reached");
     this.setState({
       plantListView: false,
       plantDetailsView: false,
@@ -102,12 +92,9 @@ class PlantControl extends React.Component {
   }
 
   handleChangingSelectedPlant = (id) => {
-    console.log("Reached 'handleChangingSelectedPlant'");
-    console.log(id);
     
     firebase.db.collection("plants").doc(id).get().then(doc => {
       const plant = doc.data();
-      // console.log("selectedPlant id", plant);
       const newSelectedPlant = {
         plantName: plant.plantName,
         species: plant.species,
@@ -129,16 +116,15 @@ class PlantControl extends React.Component {
   }
   
   render() {
-    // WORKS
-    // console.log("firebase", firebase.auth.currentUser.email);
     const auth = firebase.auth.currentUser;
+
     if (!auth) {
       return (
       <h1 className="plantCard" id="loginText">You must sign in to access your plants!</h1>
       )
     } else {
       let currentlyVisibleState = null;
-      // let buttonTest = null;
+      
       if (this.state.plantDetailsView) {
         currentlyVisibleState = <PlantDetails 
         selectedPlant = { this.state.selectedPlant }

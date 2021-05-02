@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function ReusablePlantForm(props) {
-  
   let defaultValues = {};
 
   if(props.originalValues) {

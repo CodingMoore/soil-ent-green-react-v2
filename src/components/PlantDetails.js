@@ -3,7 +3,6 @@ import PlantGraph from "./PlantGraph";
 import PropTypes from "prop-types";
 
 function PlantDetails(props) {
-
   const plant = props.selectedPlant;
 
   return (

@@ -3,8 +3,6 @@ import firebase from "./../firebase/index";
 import CanvasJSReact from "./../canvasjs.react";
 import PropTypes from "prop-types";
 
-
-//var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class PlantGraph extends React.Component {
@@ -17,13 +15,12 @@ class PlantGraph extends React.Component {
   
   componentDidMount() {
     const selectedMachineName = this.props.plantToGraph.machineName
-    console.log("selectedMachineName", selectedMachineName);
     const doc = firebase.db.collection("hardware").where("machineName", "==", selectedMachineName).orderBy("dateTime");
+    
     doc.onSnapshot(docSnapshot => {
-      // console.log(`received doc snapshot: ${docSnapshot}`);
       const result = docSnapshot.docs.map( doc => {
-      return {...doc.data(), id: doc.id};
-      })
+        return {...doc.data(), id: doc.id};
+        })
       this.setState({selectedPlantData: result});
     }, err => {
       console.log(`There has been an error: ${err}`);
@@ -61,8 +58,6 @@ class PlantGraph extends React.Component {
       
       return (
         <React.Fragment>
-          {console.log(this.state.selectedPlantData)}
-          {console.log("graphData", graphData)}
           <div className="plantCard">
             <CanvasJSChart options={options} />
           </div>
@@ -73,7 +68,7 @@ class PlantGraph extends React.Component {
 }
 
 PlantGraph.propTypes = {
-  plantToGraph: PropTypes.func  //is this accurate?
+  plantToGraph: PropTypes.func
 }
 
 export default PlantGraph;

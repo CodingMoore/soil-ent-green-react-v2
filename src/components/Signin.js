@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "firebase/app";
 
 function Signin() {
+  
   function doSignUp(event) {
     event.preventDefault();
     const email = event.target.email.value;
@@ -15,7 +16,6 @@ function Signin() {
         console.log(error.message);
       });
   }
-
 
   function doSignIn(event) {
     event.preventDefault();
@@ -52,7 +52,7 @@ function Signin() {
             name = "email"
             placeholder = "email"/>
           <input
-            typ = "password"
+            type = "password"
             name = "password"
             placeholder = "Password" />
           <button type = "submit">Sign up!</button>
