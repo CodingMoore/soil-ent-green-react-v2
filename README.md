@@ -2,7 +2,7 @@
 Project Initiated: 2021-03-05<br/>
 Updated: 2021-03-17
 
-__This repo is the JavaScript/React side of this project.  The Python (Raspberry Pi) side of this project can be found in its own repo, [here](https://github.com/CodingMoore/soil-ent-green-python).__
+__This repo is the JavaScript/React side of this project.  The Python (Raspberry Pi) side of this project can be found in its own repo, [HERE](https://github.com/CodingMoore/soil-ent-green-python).__
 
 <br/>
 <br/>
