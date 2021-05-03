@@ -90,7 +90,7 @@ import firebase and db into Control component, and call the db to test the fireb
     export default PlantControl
     ------------------------------
 
-add code to submit a new collection/data to firestore.  Once you have verified that it works, comment it out so you don't keep adding the same thing over and over every time the wepage loads.
+add code to submit a new collection/data to Firestore.  Once you have verified that it works, comment it out so you don't keep adding the same thing over and over every time the webpage loads.
 
 
     src/components/PlantControl
@@ -126,7 +126,7 @@ add code to submit a new collection/data to firestore.  Once you have verified t
 
 add local state to the control file with a constructor containing "this.state".  "this.state" should contain 'masterList: null'.
 
-add code to retreive and save date from firestore to this.state.
+add code to retrieve and save date from firestore to this.state.
 
     src/components/PlantControl
     ----------------------------
@@ -475,7 +475,7 @@ add Signin.js file to src/components
     export default Signin
     -------------------------------
 
-update Contorlfile with import statement and conditional for render.
+update Contorl file with import statement and conditional for render.
 
     src/components/PlantControl
     ----------------------------
