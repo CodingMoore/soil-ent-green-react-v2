@@ -5,7 +5,7 @@ Updated: 2021-03-17
 __This repo is the JavaScript/React side of this project.  The Python (Raspberry Pi) side of this project can be found in its own repo, [HERE](https://github.com/CodingMoore/soil-ent-green-python).__ 
 <br/>
 
-__A Firestore database is also required for full funcionality__
+__A Firestore database is also required for full functionality__
 
 <br/>
 <br/>
@@ -155,7 +155,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 ```
-Save this file.
+Save this new file.
 
 Create another new folder in the root directory of the Soil-Ent-Green project, called "__.env__".  Copy and paste in the following lines of text...
 
