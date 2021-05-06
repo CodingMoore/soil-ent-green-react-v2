@@ -105,7 +105,7 @@ For the purposes of this project, a Raspberry Pi is used instead of custom hardw
     
 <br>
 
-3) Once the project has finished downloading, navigate to the root directory of the project in the terminal/console, and type <code>code .</code> and then hit return/enter.
+3) Once the project has finished downloading, navigate to the root directory of the project in the terminal/console, and type "<code>code .</code>" and then hit return/enter.
 
     The project should automatically launch using your default source code editor.
 
@@ -175,7 +175,7 @@ You will be required to gather additional information from Firebase during the R
 
 <hr/>
 
-### __Warning:__ Once the Python/Raspberry Pi application has been started, it will continue to send data to Firestore at the "__time.sleep()__" interval that you have set in the "__soil.py__" file  (default: 2 seconds).  It will do so until the application is stopped, or the Pi is shut down. Viewing a live data graph in the React app will also count toward your read/write limits whenever new data points appear.
+### __Warning:__ Once the Python/Raspberry Pi application has been started, it will continue to send data to Firestore at the "__time.sleep()__" interval that you have set in the "__soil&period;py__" file  (default: 2 seconds).  It will do so until the application is stopped, or the Pi is shut down. Viewing a live data graph in the React app will also count toward your read/write limits whenever new data points appear.
 
 <br/>
 
