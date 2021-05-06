@@ -38,6 +38,34 @@ For the purposes of this project, a Raspberry Pi is used instead of custom hardw
 
 <br/>
 
+## **Screenshots**
+<br/>
+
+### Plant List
+![Plant List](./readmeAssets/soil-ent-green4.PNG)
+<br/>
+<br/>
+
+### Plant Details
+![Plant Details](./readmeAssets/soil-ent-green7.PNG)
+<br/>
+<br/>
+
+### Create Plant
+![Create Plant](./readmeAssets/soil-ent-green3.PNG)
+<br/>
+<br/>
+
+### Authorization
+![Authorization](./readmeAssets/soil-ent-green2.PNG)
+<br/>
+<br/>
+
+### Firestore Database
+![Firestore Database](./readmeAssets/soil-ent-green6.PNG)
+
+
+
 ## **Required for Use (Combined React and Python apps)**
 * A browser that can run HTML5.
 * A Firestore account/database.
