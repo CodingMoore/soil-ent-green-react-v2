@@ -26,15 +26,15 @@ A "Raspberry Pi" running the Soil-Ent-Green Python application is used to gather
 
 The React application has full C.R.U.D. capabilities and utilizes Firebase Authentication, so a user can only access, add, edit, and delete their own plants and database data.  As plant information is stored in the Firestore database with the sensor data, this application could be utilized by the user from any browser/device (if the application were deployed).
 
-The Python application can be modified to account for individual sensor calibration and to adjust the interval between sensor readings.  For the purposes of quick demos, this interval is currently set to 2 seconds.
+The Python application can be modified to account for individual sensor calibration and to adjust the interval between sensor readings.  For the purposes of quick demos and easy sensor calibration, this interval is set to 2 seconds by default.
 
 <br/>
 
 ## **Project Explanation**
 
-Soil-Ent-Green is an exercise/experiment in figuring out how a hardware product might be paired with its software without the user being required to edit any code. With respect to this, we are assuming that the "Machine Name" that is entered into the "New Plant" creation form, is written somewhere on the hardware's exterior.  
+Soil-Ent-Green is an exercise/experiment in figuring out how a hardware product might be paired with its web app, without the user being required to edit any code. 
 
-For the purposes of this project, a Raspberry Pi is used instead of custom hardware.  If this were a "real" product, the hardware would have be factory programmed with this unique "machine name" and database authentication key.
+If this were a "real" product, custom hardware would be used instead of a Raspberry Pi, and it would come factory programmed with a unique "Machine Name" and database authentication key. The "Machine Name" would be printed on the hardware's exterior so that a user can easily find it and type it into the plant creation form in the React app.  
 
 <br/>
 
@@ -188,45 +188,12 @@ You will be required to gather additional information from Firebase during the R
 
 <br/>
 
-## **Create a React ".env" File (and a ".gitignore" file)**
+## **Create a React ".env" File**
 
-Creating a ".gitignore" file is technically optional, but having it will help prevent you from accidentally pushing this project to your github account and exposing your secret firebaseConfig values to the world.  If you do not have a github account, or will never push this project to your github, the creation of the ".gitignore" can be skipped and you can move on to creating the .env file.
+__Before creating your ".env" file, make sure to push this project to your github account.  If you do not, you risk accidentally exposing your secret account information to the world.__
 
-First create a new folder in the root directory of the Soil-Ent-Green project, called "__.gitignore__".  Copy and paste in the following lines of text...
 
-```
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env
-serviceAccountKey.json
-
-add-read-example.js
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-```
-
-__Save this new file, make a commit, and push the project to github BEFORE continuing to the next step.__
-
-Create another new folder in the root directory of the Soil-Ent-Green project, called "__.env__".  Copy and paste in the following lines of text...
+Create a new folder in the root directory of the Soil-Ent-Green project, called "__.env__".  Copy and paste in the following lines of text...
 
 ```
 REACT_APP_FIREBASE_API_KEY = ""
